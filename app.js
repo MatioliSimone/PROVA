@@ -1,15 +1,18 @@
-async function myFetch() {
-  let response = await fetch('coffee.jpg');
+async function fetchAndDecode(url, type) {
+  let response = await fetch(url);
+
+  let content;
+
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
-    return await response.blob();
-  }
-}
+    if(type === 'blob') {
+      content = await response.blob();
+    } else if(type === 'text') {
+      content = await response.text();
+    }
 
-myFetch().then((blob) => {
-  let objectURL = URL.createObjectURL(blob);
-  let image = document.createElement('img');
-  image.src = objectURL;
-  document.body.appendChild(image);
-}).catch(e => console.log(e));
+    return content;
+  }
+
+}
