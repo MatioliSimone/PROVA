@@ -6,3 +6,10 @@ async function myFetch() {
     return await response.blob();
   }
 }
+
+myFetch().then((blob) => {
+  let objectURL = URL.createObjectURL(blob);
+  let image = document.createElement('img');
+  image.src = objectURL;
+  document.body.appendChild(image);
+}).catch(e => console.log(e));
